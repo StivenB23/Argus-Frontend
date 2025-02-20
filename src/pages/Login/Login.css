@@ -1,0 +1,10 @@
+.login {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 100vh;
+
+  & .login--banner{
+    background-color: var(--color-primary-blue);
+  }
+
+}
