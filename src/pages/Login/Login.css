@@ -4,7 +4,35 @@
   height: 100vh;
 
   & .login--banner{
-    background-color: var(--color-primary-blue);
+    width: 100%;
+    height: 100%;
+    /* background-color: var(--color-primary-blue); */
+    background: 
+        linear-gradient(rgba(0, 17, 205, 0.521), rgba(1, 6, 53, 0.4)), 
+        url('../../assets/img/image_Carnet2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
+}
+
+.login__form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  form {
+    border: 1px solid red;
+    img{
+      width: 400px;
+      border: blue 1px solid;
+    }
+
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.form__header{
+  display: flex;
+  justify-content: center;
 }
