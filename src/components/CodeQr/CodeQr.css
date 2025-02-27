@@ -1,0 +1,10 @@
+.codeQr {
+  width: 70px;
+  height: 70px;
+  background-color: black;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--color-white);
+  text-align: center;
+}

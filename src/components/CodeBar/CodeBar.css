@@ -1,0 +1,10 @@
+.codeBar {
+  width: 80%;
+  height: 30px;
+  background-color: black;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--color-white);
+  text-align: center;
+}

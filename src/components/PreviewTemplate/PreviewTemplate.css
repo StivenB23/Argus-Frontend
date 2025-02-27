@@ -1,0 +1,36 @@
+.preview {
+    background-color: rgb(57, 57, 57);
+    width: 90%;
+    height: 90vh;
+    padding: 20px;
+}
+
+.preview-carnet {
+    position: relative;
+    width: 5.5cm;
+    height: 8.5cm;
+    background-color: var(--color-white);
+    margin: 20px auto;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.foto {
+    background-color: rgb(83, 83, 83);
+    width: 2.5cm;
+    height: 3cm;
+    position: absolute;
+    text-align: center;
+    color: var(--color-white);
+    font-weight: bold;
+}
+
+.codeBar,
+.codeQr {
+    position: absolute;
+    cursor: grab;
+}
+.dataElement {
+    position: absolute;
+    cursor: pointer;
+}

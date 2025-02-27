@@ -1,0 +1,42 @@
+.template{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.preview{
+    background-color: rgb(57, 57, 57);
+    width: 90%;
+    height: 90vh;
+    padding: 20px;
+}
+.preview-carnet{
+    width: 5.5cm;
+    height: 8.5cm;
+    background-color: var(--color-white);
+    margin: 20px auto;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.orientation{
+    border-radius: 5px;
+    font-size: 1rem;
+    border: none;
+    padding: 4px 7px;
+}
+.orientation-vertical{
+    height: 100px;
+}
+.orientation-horizontal{
+    height: 100px;
+    width: 150px;
+}
+
+.orientationSelected{
+    border: 2px solid blue;
+    font-weight: bold;
+}
+
+.orientations{
+    display:flex;
+    gap: 10px;
+}
