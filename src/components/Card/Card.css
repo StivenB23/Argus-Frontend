@@ -1,0 +1,22 @@
+.card {
+    padding: 16px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    width: 200px;
+  }
+  
+  /* Estilos dinámicos */
+  .card-success {
+    background-color: var(--color-succes-green); /* Verde */
+  }
+  
+  .card-warning {
+    background-color: var(--color-warning-orange); /* Rojo */
+  }
+  
+  .card-info {
+    background-color: var(--color-info-blue); /* Azul */
+  }
+  

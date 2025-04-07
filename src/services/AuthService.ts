@@ -1,8 +1,52 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8000"; // Asegúrate de cambiarlo si tu backend está en otro puerto o dominio
+const API_URL = "http://localhost:8300";
 
-export const registerUser = async (name: string, file: File): Promise<{ success: boolean; message: string }> => {
+type errorHandler = {
+  success: boolean;
+  message: string;
+};
+
+export type authToken = {
+  access_token: string;
+};
+
+export const handleAxiosError = (error: unknown): errorHandler => {
+  if (axios.isAxiosError(error)) {
+    console.log(error.status);
+    
+    return {
+      success: false,
+      message:
+        error.response?.data?.detail ||
+        error.message ||
+        "Error desconocido en la solicitud",
+    };
+  }
+  return { success: false, message: "Error inesperado en la solicitud" };
+};
+
+export const loginService = async (
+  email: string,
+  password: string
+): Promise<authToken | errorHandler> => {
+  try {
+    const formData = new FormData();
+    formData.append("username", email);
+    formData.append("password", password);
+    const responseLogin = await axios.post(`${API_URL}/login`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return responseLogin.data;
+  } catch (error) {
+    return handleAxiosError(error);
+  }
+};
+
+export const registerUser = async (
+  name: string,
+  file: File
+): Promise<{ success: boolean; message: string }> => {
   const formData = new FormData();
   formData.append("name", name);
   formData.append("file", file);
@@ -13,11 +57,13 @@ export const registerUser = async (name: string, file: File): Promise<{ success:
     });
     return response.data;
   } catch (error) {
-    return { success: false, message: "Error en la solicitud" };
+    return handleAxiosError(error);
   }
 };
 
-export const verifyFace = async (file: File): Promise<{ success: boolean; message: string }> => {
+export const verifyFace = async (
+  file: File
+): Promise<{ success: boolean; message: string }> => {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -27,6 +73,6 @@ export const verifyFace = async (file: File): Promise<{ success: boolean; messag
     });
     return response.data;
   } catch (error) {
-    return { success: false, message: "Error en la solicitud" };
+    return handleAxiosError(error);
   }
 };

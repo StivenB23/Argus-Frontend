@@ -1,0 +1,8 @@
+.formuser {
+  width: 60%;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  & input{
+    width: 100%;
+  }
+}
