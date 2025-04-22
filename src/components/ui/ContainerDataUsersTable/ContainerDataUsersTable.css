@@ -1,0 +1,30 @@
+.containerdatauserstable {}
+
+.table-row-custom {
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.table-row-custom:hover {
+  background-color: #a1de09;
+}
+
+.header-cell-custom {
+  background-color: #1890ff;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 14px;
+}
+
+.cell-custom {
+  padding: 12px;
+  font-size: 13px;
+}
+
+.buttons__actions{
+  display: flex;
+  gap: .9rem;
+  font-size: 1.4rem;
+  border: 1px solid green;
+}

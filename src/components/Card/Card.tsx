@@ -4,8 +4,8 @@ export type CardProps = {
   type: 'success' | 'warning' | 'info';
 };
 
-const Card: React.FC<CardProps> = ({ type }) => {
-  return (<div className={`card card-${type}`}>Card works!</div>);
+const Card: React.FC<CardProps> = ({ type, children }) => {
+  return (<div className={`card card-${type}`}>{children}</div>);
 };
 
 export default Card;

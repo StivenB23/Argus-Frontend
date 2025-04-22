@@ -1,0 +1,54 @@
+.pantone-card {
+    background: #fff;
+    display: grid;
+    width: 160px;
+    border-radius: 12px;
+    box-shadow: 0 0 14px rgba(117, 117, 117, 0.5);
+    border: 4px solid #fff;
+    margin: 20px;
+    transition: box-shadow 0.27s ease-in-out, margin 0.3s ease-in-out;
+}
+
+.pantone-card:hover {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.pantone-card input[type="color"] {
+    display: inline-flex;
+    border: none;
+    border-radius: 12px 12px 0 0;
+    padding: 0;
+    height: 120px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.pantone-card input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.pantone-card input[type="color"]::-webkit-color-swatch,
+.pantone-card input[type="color"]::-moz-color-swatch {
+    border: none;
+    border-radius: 12px 12px 0 0;
+}
+
+.pantone-card output {
+    display: block;
+    background: #fff;
+    font-size: 24px;
+    padding: 16px;
+    line-height: 1em;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+
+.pantone-card output::before {
+    content: 'HEXADECIMAL';
+    font-size: 12px;
+    font-weight: bold;
+    display: block;
+    color: #555;
+    margin-bottom: 4px;
+}

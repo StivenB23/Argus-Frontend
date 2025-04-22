@@ -1,290 +1,299 @@
-import { useState } from "react";
+// components/FormTemplate.tsx
+import { useCallback, useState } from "react";
 import "./FormTemplate.css";
-import PropTypes from "prop-types";
+import { useForm } from "react-hook-form";
 import { PreviewTemplate } from "../PreviewTemplate";
 import { FormTemplateInformation } from "../FormTemplateInformation";
-import jsPDF from 'jspdf';
+import jsPDF from "jspdf";
+import { Template } from "@services/models/template.model";
+import { createTemplateService } from "../../services/template.service";
+import ColorPickerCard from "@components/ui/ColorPicker/ColorPicker";
 
-
-const FormTemplate = ({}) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [seguridad, setSeguridad] = useState("Ninguno");
-  const [background, setBackground] = useState();
+const FormTemplate = () => {
+  const { register, handleSubmit, watch, setValue } = useForm();
+  const [dataElementsPositions, setDataElementsPositions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [seguridad, setSeguridad] = useState({
+    type: "",
+    ancho: 0,
+    alto: 0,
+    position_x: 0,
+    position_y: 0,
+  });
+  const [background, setBackground] = useState<File | null>(null);
+  const [backgroundUrl, setBackgroundUrl] = useState("");
   const [orientation, setOrientation] = useState("vertical");
-  const [informationTemplate, setinformationTemplate] = useState([]);
-  const [backgroundUrL, setBackgroundUrl] = useState("");
-  const [tipoSectorPlantilla, setTipoSectorPlantilla] = useState("");
+  const [informationTemplate, setInformationTemplate] = useState<any[]>([]);
   const [photoDimension, setPhotoDimension] = useState({
     width: 2.8,
     height: 3,
-    unitMeasurement: "",
+    position_x: 1,
+    position_y: 1,
   });
   const [templateDimension, setTemplateDimension] = useState({
     width: 5.5,
     height: 8.5,
-    unitMeasurement: "",
+    unit: "",
   });
 
-  const handleToggle = (option) => {
-    setSelectedOption((prevOption) => (prevOption === option ? null : option));
+  const handleToggle = useCallback((option: string) => {
+    setSelectedOption((prev) => (prev === option ? null : option));
+  }, []);
+
+  const updateDimension = (
+    type: "photo" | "template",
+    key: "width" | "height",
+    value: string
+  ) => {
+    const parsed = parseFloat(value);
+    const num = isNaN(parsed) ? 0 : parsed;
+    type === "photo"
+      ? setPhotoDimension((prev) => ({ ...prev, [key]: num }))
+      : setTemplateDimension((prev) => ({ ...prev, [key]: num }));
   };
 
-  const generatePDF = () => {
-	const doc = new jsPDF({
-	  orientation: orientation === "vertical" ? "portrait" : "landscape",
-	  unit: templateDimension.unitMeasurement || "cm",
-	  format: [templateDimension.width, templateDimension.height],
-	});
-  
-	// Cargar imagen de fondo si está disponible
-	if (backgroundUrL) {
-	  const img = new Image();
-	  img.src = backgroundUrL;
-	  img.onload = () => {
-		const canvas = document.createElement("canvas");
-		const ctx = canvas.getContext("2d");
-  
-		canvas.width = img.width;
-		canvas.height = img.height;
-		ctx.drawImage(img, 0, 0);
-  
-		const imgData = canvas.toDataURL("image/png"); // Convertir imagen a Base64
-		doc.addImage(imgData, "PNG", 0, 0, templateDimension.width, templateDimension.height);
-		
-		// Generar y guardar el PDF después de cargar la imagen
-		finalizePDF(doc);
-	  };
-	} else {
-	  finalizePDF(doc);
-	}
-  };
-  
-  // Función para agregar elementos y guardar el PDF
-  const finalizePDF = (doc) => {
-	// Agregar texto de ejemplo
-	doc.setFontSize(12);
-	doc.text("Plantilla Generada", 10, 10);
-  
-	// Dibujar el recuadro de la foto
-	doc.setDrawColor(0);
-	doc.setLineWidth(0.5);
-	doc.rect(10, 20, photoDimension.width, photoDimension.height); // Coordenadas X, Y, Ancho, Alto
-  
-	// Guardar PDF
-	doc.save("template.pdf");
-  };
-  
-
-  const changePhotoDimensionHeight = (e) => {
-    console.log(e.target.value);
-    let photoHeight = isNaN(parseFloat(e.target.value))
-      ? 0
-      : parseFloat(e.target.value, 10).toString() || 0;
-    setPhotoDimension({ width: photoDimension.width, height: photoHeight });
-    console.log(photoDimension);
+  const changeUnit = (unit: string) => {
+    setTemplateDimension((prev) => ({ ...prev, unit }));
   };
 
-  const changePhotoDimensionWith = (e) => {
-    let photoWidth = isNaN(parseFloat(e.target.value))
-      ? 0
-      : parseFloat(e.target.value, 10).toString() || 0;
-    setPhotoDimension({ width: photoWidth, height: photoDimension.height });
-    console.log(photoDimension);
-  };
-  const changeTemplateDimensionHeight = (e) => {
-    console.log(e.target.value);
-    let templateHeight = isNaN(parseFloat(e.target.value))
-      ? 0
-      : parseFloat(e.target.value, 10).toString() || 0;
-    console.log(templateHeight);
-    setTemplateDimension({
-      width: templateDimension.width,
-      height: templateHeight,
-      unitMeasurement: templateDimension.unitMeasurement,
-    });
-    console.log(photoDimension);
+  const changeOrientation = (dir: "vertical" | "horizontal") => {
+    setOrientation(dir);
+    setTemplateDimension((prev) => ({
+      ...prev,
+      width: prev.height,
+      height: prev.width,
+    }));
   };
 
-  const changeTemplateDimensionWith = (e) => {
-    let templateWidth = isNaN(parseFloat(e.target.value))
-      ? 0
-      : parseFloat(e.target.value, 10).toString() || 0;
-    setTemplateDimension({
-      width: templateWidth,
-      height: templateDimension.height,
-      unitMeasurement: templateDimension.unitMeasurement,
-    });
-    console.log(photoDimension);
-  };
-
-  const changeTemplateunitMeasurement = (unit) => {
-    console.log(unit);
-    setTemplateDimension({
-      width: templateDimension.width,
-      height: templateDimension.height,
-      unitMeasurement: unit,
-    });
-    console.log(templateDimension);
-  };
-
-  const uploadBackgroundTemplate = (e) => {
-    console.log(e.target.files[0]);
-    const urlImage = URL.createObjectURL(e.target.files[0]);
-    setBackgroundUrl(urlImage);
-  };
-
-  const changeOrientation = (orientation) => {
-    if (orientation === "vertical") {
-      setOrientation("vertical");
-      setTemplateDimension({
-        width: templateDimension.height,
-        height: templateDimension.width,
-        unitMeasurement: templateDimension.unitMeasurement,
-      });
-    } else {
-      setOrientation("horizontal");
-      setTemplateDimension({
-        width: templateDimension.height,
-        height: templateDimension.width,
-        unitMeasurement: templateDimension.unitMeasurement,
-      });
+  const uploadBackgroundTemplate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setBackground(file);
+      setBackgroundUrl(URL.createObjectURL(file));
     }
   };
 
-//   const changeTypeTemplate = (e) => {
-//     setTipoSectorPlantilla(e.target.value);
-//     setinformationTemplate([]);
-//   };
+  const removeBackground = () => setBackgroundUrl("");
 
-  const removeBackground = () => {
-    setBackgroundUrl("");
+  const generatePDF = () => {
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: templateDimension.unit || "cm",
+      format: [templateDimension.width, templateDimension.height],
+    });
+    console.log("Unidad de medida:", templateDimension.unit || "cm");
+
+    if (backgroundUrl) {
+      const img = new Image();
+      img.src = backgroundUrl;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        const imgData = canvas.toDataURL("image/png");
+        doc.addImage(
+          imgData,
+          "PNG",
+          0,
+          0,
+          templateDimension.width,
+          templateDimension.height
+        );
+
+        finalizePDF(doc);
+      };
+    } else {
+      finalizePDF(doc);
+    }
+  };
+
+  const finalizePDF = (doc: jsPDF) => {
+    doc.setFontSize(12);
+    doc.text("Plantilla Generada", 0.5, 0.5); // para que no se salga
+
+    doc.setDrawColor(0);
+    doc.setFillColor(0, 0, 0);
+    doc.rect(0.6, 6.5, 4, 0.7, "F"); // x, y, width, height en centímetros si unit = "cm"
+
+    doc.addImage(
+      "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/bell-cranel-crying.jpg",
+      "JPG",
+      1.08,
+      0.23,
+      2.8,
+      3
+    );
+
+    doc.save("template.pdf");
+  };
+
+  // 👇 Simulamos función externa
+  const crearUsuario = (data: any) => {
+    console.log("Creando usuario con:", data);
+    alert("Usuario creado correctamente.");
+  };
+
+  const createTemplate = async (data: any) => {
+    const templateData: Template = {
+      template_name: data.nameTemplate,
+      unit: templateDimension.unit,
+      width: templateDimension.width,
+      height: templateDimension.height,
+      background: backgroundUrl,
+      photo_height: photoDimension.height,
+      photo_width: photoDimension.width,
+      photo_x: photoDimension.position_x,
+      photo_y: photoDimension.position_y,
+      code_type: seguridad.type,
+      code_type_y: seguridad.position_y,
+      code_type_x: seguridad.position_x,
+    };
+    console.log(templateData);
+    await createTemplateService(templateData, background);
+  };
+
+  const consultarInformacion = () => {
+    console.log(informationTemplate);
+    console.log(JSON.stringify(informationTemplate));
   };
 
   return (
     <section className="template">
-      <article>
-        <h1>Crear Plantilla</h1>
-        <h4>Configuración General</h4>
-        <div>
-          <label htmlFor="nameTemlate">Nombre Plantilla</label>
-          <input type="text" id="nameTemlate" /> <br />
-          <label htmlFor="">Unidad de medida a usar</label>
-          <span onClick={() => changeTemplateunitMeasurement("cm")}>cm</span>
-          <span onClick={() => changeTemplateunitMeasurement("px")}>px</span> <br /><br />
-          <label htmlFor="withTemplate">Ancho </label>
+      <form onSubmit={handleSubmit(createTemplate)}>
+        <article>
+          <h1>Crear Plantilla</h1>
+          <h4>Configuración General</h4>
+
+          <label htmlFor="nameTemplate">Nombre Plantilla</label>
+          <input
+            type="text"
+            id="nameTemplate"
+            {...register("nameTemplate", { required: true })}
+          />
+
+          <label>Unidad de medida</label>
+          <span onClick={() => changeUnit("cm")}>cm</span>
+          <span onClick={() => changeUnit("px")}>px</span>
+
+          <label>Ancho</label>
           <input
             type="number"
-            name=""
             min={0}
-            disabled={templateDimension.unitMeasurement == "" ? true : false}
+            disabled={!templateDimension.unit}
             value={templateDimension.width}
-            id="withTemplate"
-            onChange={changeTemplateDimensionWith}
-          /> <br /><br />
-          <label htmlFor="heightTemplate">Alto </label>
+            onChange={(e) =>
+              updateDimension("template", "width", e.target.value)
+            }
+          />
+
+          <label>Alto</label>
           <input
             type="number"
-            name=""
             min={0}
-            disabled={templateDimension.unitMeasurement == "" ? true : false}
+            disabled={!templateDimension.unit}
             value={templateDimension.height}
-            id="heightTemplate"
-            onChange={changeTemplateDimensionHeight}
+            onChange={(e) =>
+              updateDimension("template", "height", e.target.value)
+            }
           />
-          <label htmlFor="">Identificador de seguridad</label>
-          <input
-            type="radio"
-            name="seguridad"
-            value="CodBarra"
-            onChange={() => setSeguridad("CodBarra")}
-          /> 
-          Código de Barra
-          <input
-            type="radio"
-            name="seguridad"
-            value="CodQR"
-            onChange={() => setSeguridad("CodQR")}
-          />
-          Código QR
-          <input
-            type="radio"
-            name="seguridad"
-            value="Ninguno"
-            onChange={() => setSeguridad("Ninguno")}
-          />
-          Ninguno <br /><br />
-          <label htmlFor="">Cargar Fondo</label>
-          <small>Si no carga fondo, se usara el color blanco por defecto</small>
-          <input
-            type="file"
-            name=""
-            onChange={uploadBackgroundTemplate}
-            id=""
-          /> 
+
+          <label>Identificador de seguridad</label>
+          {["CodBarra", "CodQR", "Ninguno"].map((opt) => (
+            <label key={opt}>
+              <input
+                type="radio"
+                value={opt}
+                checked={seguridad["type"] === opt}
+                onChange={() =>
+                  setSeguridad((prev) => ({ ...prev, type: opt }))
+                }
+              />
+              {opt}
+            </label>
+          ))}
+
+          <label>Cargar Fondo</label>
+          <small>Si no carga fondo, se usará blanco</small>
+          <input type="file" onChange={uploadBackgroundTemplate} />
           <button type="button" onClick={removeBackground}>
             Remover fondo
           </button>
-        </div>
-        <div>
+
           <h3 onClick={() => handleToggle("fotografia")}>Fotografía</h3>
           {selectedOption === "fotografia" && (
             <div className="dropdown-menu">
-              <label htmlFor="">Ancho</label>
+              <label>Ancho</label>
               <input
                 type="number"
                 value={photoDimension.width}
-                onChange={changePhotoDimensionWith}
+                onChange={(e) =>
+                  updateDimension("photo", "width", e.target.value)
+                }
               />
-              <label htmlFor="">Alto</label>
+              <label>Alto</label>
               <input
                 type="number"
                 value={photoDimension.height}
-                onChange={changePhotoDimensionHeight}
+                onChange={(e) =>
+                  updateDimension("photo", "height", e.target.value)
+                }
               />
             </div>
           )}
-        </div>
 
-        <div>
           <h3 onClick={() => handleToggle("informacion")}>Información:</h3>
           {selectedOption === "informacion" && (
             <div className="dropdown-menu">
               <FormTemplateInformation
                 tipoSectorPlantilla={"academico"}
                 informationTemplate={informationTemplate}
-                setinformationTemplate={setinformationTemplate}
+                setinformationTemplate={setInformationTemplate}
               />
             </div>
           )}
-        </div>
 
-        <div>
           <h3 onClick={() => handleToggle("detalles")}>Detalles:</h3>
           {selectedOption === "detalles" && (
             <div className="dropdown-menu">
-              <div className="dropdown-item">Opción 1</div>
-              <div className="dropdown-item">Opción 2</div>
-              <div className="dropdown-item">Opción 3</div>
+              <div className="">
+                <label htmlFor="">Tamaño del texto</label>
+                <input type="number" />
+              </div>
+              <div className="">
+                <label htmlFor="">Color del texto</label>
+                <ColorPickerCard />
+              </div>
             </div>
           )}
-        </div>
-        <button onClick={generatePDF}>Generar PDF</button>
-      </article>
+
+          <button type="button" onClick={generatePDF}>
+            Generar PDF
+          </button>
+          <button type="submit">Crear Plantilla</button>
+          <button type="button" onClick={consultarInformacion}>
+            Show data
+          </button>
+        </article>
+      </form>
+
       <article>
         <h2>Vista Previa</h2>
         <PreviewTemplate
           templateDimension={templateDimension}
           informationData={informationTemplate}
-          setInformationData={setinformationTemplate}
-          background={backgroundUrL}
+          setInformationData={setInformationTemplate}
+          background={backgroundUrl}
           photoDimension={photoDimension}
           seguridad={seguridad}
+          setPhotoDimension={setPhotoDimension}
+          setSeguridad={setSeguridad}
         />
       </article>
     </section>
   );
 };
-
-FormTemplate.propTypes = {};
 
 export default FormTemplate;

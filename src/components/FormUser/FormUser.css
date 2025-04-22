@@ -1,8 +1,50 @@
-.formuser {
-  width: 60%;
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  & input{
-    width: 100%;
-  }
+.form-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+  width: 80%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #cdcdcd;
+  padding: 1rem 1.2rem;
+  overflow: auto;
+}
+
+.container-photo>img {
+  height: 400px;
+  width: 300px;
+  border-radius: 8px;
+
+}
+
+.container-photo {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  width: 100%;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+
+.form-actions {
+  margin-top: 1rem;
+  text-align: center;
 }

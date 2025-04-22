@@ -1,0 +1,41 @@
+.dashboardHome{
+    display: grid;
+    gap: 20px 0;
+}
+
+.dashboardHome--header{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: aqua;
+    gap: 10px;
+    height: 180px;
+}
+
+.data-card{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.porcetage{
+    font-size: 4.3rem;
+    line-height: 2.3rem;
+    font-weight: bold;
+}
+
+.title-card {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.dashboardHome--body{
+    background-color: cadetblue;
+    display: inherit;
+    height: 250px;
+    gap: 0 10px;
+    grid-template-columns: auto calc(25% - 10px);
+}
+
+.dashboardHome--body:nth-last-child {
+    background-color: blueviolet;
+}

@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setUsuario(null);
     removeToken();
     localStorage.removeItem("user");
+    navegate("/login");
   };
 
   return (

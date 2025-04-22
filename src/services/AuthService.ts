@@ -14,7 +14,7 @@ export type authToken = {
 export const handleAxiosError = (error: unknown): errorHandler => {
   if (axios.isAxiosError(error)) {
     console.log(error.status);
-    
+
     return {
       success: false,
       message:
@@ -34,9 +34,13 @@ export const loginService = async (
     const formData = new FormData();
     formData.append("username", email);
     formData.append("password", password);
-    const responseLogin = await axios.post(`${API_URL}/login`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const responseLogin = await axios.post(
+      `${import.meta.env.VITE_API_BACKEND}/login`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
     return responseLogin.data;
   } catch (error) {
     return handleAxiosError(error);
@@ -52,9 +56,13 @@ export const registerUser = async (
   formData.append("file", file);
 
   try {
-    const response = await axios.post(`${API_URL}/register/`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BACKEND}/register/`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
     return response.data;
   } catch (error) {
     return handleAxiosError(error);
@@ -68,9 +76,26 @@ export const verifyFace = async (
   formData.append("file", file);
 
   try {
-    const response = await axios.post(`${API_URL}/verify/`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BACKEND}/verify/`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return handleAxiosError(error);
+  }
+};
+
+export const verifyIdentityCard = async (code: string) => {
+  const formData = new FormData();
+  formData.append("code", code);
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BACKEND}/verify/identities-cards`,formData
+    );
     return response.data;
   } catch (error) {
     return handleAxiosError(error);

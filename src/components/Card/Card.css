@@ -1,10 +1,11 @@
 .card {
-    padding: 16px;
+    padding: 20px 16px;
     border-radius: 8px;
     color: white;
     font-weight: bold;
     text-align: center;
-    width: 200px;
+    width: 100%;
+    max-width: 500px;
   }
   
   /* Estilos dinámicos */

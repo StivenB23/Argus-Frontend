@@ -14,12 +14,21 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    // Alias
+    "baseUrl": "src",
+    "paths":  {
+      "@components/*": ["components/*"],
+      "@assets/*": ["assets/*"],
+      "@utils/*": ["utils/*"],
+      "@services/*": ["services/*"],
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src",],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
