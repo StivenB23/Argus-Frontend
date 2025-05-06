@@ -1,0 +1,1 @@
+export { default as ContainerDataTemplatesTable } from './ContainerDataTemplatesTable';

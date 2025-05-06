@@ -3,6 +3,7 @@ export interface Template {
   template_name: string;
   unit: string;
   width: number;
+  labels?: string;
   height: number;
   photo_width: number;
   photo_height: number;

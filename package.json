@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "author": "Albert Stive Ospina Avendaño",
-  "license":"Proprietary - see LICENSE file",
+  "license": "Proprietary - see LICENSE file",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -26,6 +26,8 @@
     "react-router": "^7.1.5",
     "react-webcam": "^7.2.0",
     "recharts": "^2.15.2",
+    "sweetalert2": "^11.19.1",
+    "sweetalert2-react-content": "^5.1.0",
     "url": "^0.11.4"
   },
   "devDependencies": {

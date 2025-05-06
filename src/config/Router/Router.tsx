@@ -7,6 +7,7 @@ import DashboardHome from "../../pages/DashboardHome/DashboardHome";
 import { FormUser } from "@components/FormUser";
 import UserList from "../../pages/UserList/UserList";
 import ValidateIdentityCard from "../../pages/ValidateIdentityCard/ValidateIdentityCard";
+import TemplateList from "../../pages/TemplateList/TemplateList";
 
 const Router = () => {
   return (
@@ -16,6 +17,7 @@ const Router = () => {
       <Route path="/d" element={<App />} />
       <Route path="/template" element={<FormTemplate />} />
       <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="template/list" element={<TemplateList />} />
         <Route index element={<DashboardHome />} />
         <Route path="usuarios" element={<UserList /> } />
         <Route path="template" element={<FormTemplate />} />

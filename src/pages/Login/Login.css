@@ -36,3 +36,7 @@
   display: flex;
   justify-content: center;
 }
+
+.login__form button{
+  margin-top: 10px;
+}

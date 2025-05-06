@@ -10,8 +10,8 @@ const FormTemplateInformation = ({
   const DATAACADEMIC = [
     { nombre: "Nombre", label: "nombres" },
     { nombre: "Apellidos", label: "apellidos" },
-    { nombre: "Tipo de Documento", label: "tipoDocumento" },
-    { nombre: "N° Documento", label: "documento" },
+    { nombre: "T.D", label: "TD" },
+    { nombre: "Documento", label: "documento" },
     { nombre: "Cargo", label: "cargo" },
     { nombre: "Grado", label: "grado" },
     { nombre: "Jornada", label: "jornada" },
@@ -96,7 +96,9 @@ const FormTemplateInformation = ({
       {tipoSectorPlantilla == "academico" && (
         <>
           {DATAACADEMIC.map((academic) => (
-            <>
+            <div className={informationTemplate.some(
+              (information) => information?.nombre === academic.label
+            )?"tag--active":"tag"}>
               <input
                 type="checkbox"
                 name="Nombres"
@@ -108,11 +110,11 @@ const FormTemplateInformation = ({
                 onChange={(e) => addInformationTemplate(e.target.value)}
               />
               {academic.nombre}
-              {dataSelected == academic.label ? (
+              {/* {dataSelected == academic.label ? (
                 <span onClick={() => setDataSelected(null)}>X</span>
               ) : (
                 <span onClick={() => setDataSelected(academic.label)}>V</span>
-              )}
+              )} */}
               {informationTemplate.some(
                 (information) => information?.nombre === dataSelected
               ) && dataSelected == academic.label ? (
@@ -156,7 +158,7 @@ const FormTemplateInformation = ({
               ) : (
                 <></>
               )}
-            </>
+            </div>
           ))}
         </>
       )}

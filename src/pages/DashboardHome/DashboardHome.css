@@ -6,7 +6,6 @@
 .dashboardHome--header{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    background-color: aqua;
     gap: 10px;
     height: 180px;
 }
@@ -29,7 +28,6 @@
 }
 
 .dashboardHome--body{
-    background-color: cadetblue;
     display: inherit;
     height: 250px;
     gap: 0 10px;
@@ -39,3 +37,27 @@
 .dashboardHome--body:nth-last-child {
     background-color: blueviolet;
 }
+
+.alert-box {
+    display: flex;
+    align-items: center;
+    border: 3px solid red;
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    max-width: 300px;
+    background-color: white;
+  }
+  
+  .alert-icon {
+    color: red;
+    font-size: 32px;
+    margin-right: 10px;
+  }
+  
+  .alert-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+  }
+  

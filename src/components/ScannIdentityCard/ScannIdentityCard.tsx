@@ -27,7 +27,7 @@ const ScannIdentityCard: React.FC<Props> = ({ onScanSuccess, onScanError }) => {
       },
       (error) => {
         onScanError?.(error);
-        console.warn("❌ Error escaneando:", error);
+        // console.warn("❌ Error escaneando:", error);
       }
     );
 

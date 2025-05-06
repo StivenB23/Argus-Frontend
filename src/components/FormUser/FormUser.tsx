@@ -144,7 +144,7 @@ const FormUser: React.FC<FormUserProps> = () => {
         <h2>Information</h2>
         <div className="form-row">
           <div className="form-group">
-            <label>Name:</label>
+            <label>Nombres:</label>
             <input {...register("first_name", { required: true })} />
             {errors.first_name && (
               <span className="error">This field is required</span>
@@ -152,7 +152,7 @@ const FormUser: React.FC<FormUserProps> = () => {
           </div>
 
           <div className="form-group">
-            <label>Last Name:</label>
+            <label>Apellidos:</label>
             <input
               {...register("last_name", {
                 required: true,
@@ -170,12 +170,13 @@ const FormUser: React.FC<FormUserProps> = () => {
 
         <div className="form-row">
           <div className="form-group">
-            <label>Document Type:</label>
+            <label>Tipo de Documento:</label>
             <select {...register("document_type", { required: true })}>
               <option value="">Select...</option>
-              <option value="CC">Citizenship Card</option>
-              <option value="TI">Identity Card</option>
-              <option value="CE">Foreigner's ID</option>
+              <option value="CC">Cedula de Ciudadania</option>
+              <option value="TI">Tarjeta de Identidad</option>
+              <option value="CE">Cedula de Extranjeria</option>
+              <option value="PA">Pasaporte</option>
             </select>
             {errors.document_type && (
               <span className="error">Please select a document type</span>
@@ -183,7 +184,7 @@ const FormUser: React.FC<FormUserProps> = () => {
           </div>
 
           <div className="form-group">
-            <label>Document Number:</label>
+            <label>Número Documento:</label>
             <input
               {...register("document_number", {
                 required: true,
@@ -218,7 +219,7 @@ const FormUser: React.FC<FormUserProps> = () => {
           </div>
 
           <div className="form-group">
-            <label>Role:</label>
+            <label>Rol:</label>
             <select {...register("role_id", { required: true })}>
               <option value="">Select...</option>
               {roles?.map((role) => (
@@ -274,10 +275,10 @@ const FormUser: React.FC<FormUserProps> = () => {
         </div>
 
         <div className="form-actions">
-          <button type="submit">Enviar</button>
-          <button type="button" onClick={generateCard}>
+          <button type="submit">Crear Usuario</button>
+          {/* <button type="button" onClick={generateCard}>
             Generar Carne
-          </button>
+          </button> */}
         </div>
       </div>
     </form>

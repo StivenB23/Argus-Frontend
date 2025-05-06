@@ -18,6 +18,7 @@
   --color-info-blue: #05BAC6;
   --color-succes-green: #7DAF08;
   --color-danger-red: #D81D1A;
+  --color-white: #fff;
 
 }
 
@@ -27,31 +28,51 @@
   box-sizing: border-box;
 }
 
-label{
+label {
   font-weight: 600;
 }
 
-input{
+input {
   outline: none;
-  background-color: #E8E8E8;
-  padding: 5px;
+  background-color: #d7d7d7;
+  padding: 5px 10px;
   border: none;
+  font-size: 1rem;
   border-radius: 3px;
+  accent-color: var(--color-primary-blue);
+  border: 1px solid transparent;
 }
 
-input[type="color"]{
+input:focus {
+  transition: 1s all;
+  border: 1px solid var(--color-primary-blue);
+}
+
+input[type="color"] {
   border: 1px solid red;
   background-color: transparent;
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
-
-button{
-  border-radius: 5px;
-  font-size: 1rem;
+input[type="file"]{
   border: none;
-  padding: 4px 7px;
+  background: transparent;
+}
+
+input[type="file"]::file-selector-button {
+  font-weight: bold;
+  color: var(--color-primary-blue);
+  padding: 0.5em;
+  border: thin solid #8b8b8b;
+  border-radius: 3px;
+}
+
+button {
+  border-radius: 5px;
+  font-size: 1.2rem;
+  border: none;
+  padding: 4px 10px;
   background-color: var(--color-primary-blue);
   color: #ffffff;
   cursor: pointer;
@@ -62,6 +83,11 @@ select {
   border-radius: 2px;
   border: 1px solid #ccc;
   outline: none;
+}
+
+.error{
+  color: var(--color-danger-red);
+  font-weight: 600;
 }
 
 /* 

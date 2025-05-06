@@ -1,4 +1,5 @@
 import React from 'react';
+import './FotografiaTemplate.css'
 
 const FotografiaTemplate = ({ dimensions = {}, onMouseDown }) => {
     return (
@@ -8,7 +9,7 @@ const FotografiaTemplate = ({ dimensions = {}, onMouseDown }) => {
             style={{ cursor: 'grab', width: `${dimensions.width}cm`, height: `${dimensions.height}cm` }}
             draggable="false"
         >
-            Fotografía
+           <p>Fotografía</p> 
         </div>
     );
 };

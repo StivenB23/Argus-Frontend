@@ -15,7 +15,7 @@ const PreviewTemplate = ({
   photoDimension,
   seguridad,
   setPhotoDimension,
-  setSeguridad
+  setSeguridad,
 }) => {
   const [dragging, setDragging] = useState(false);
   const [draggedElement, setDraggedElement] = useState(null);
@@ -111,12 +111,15 @@ const PreviewTemplate = ({
               nombre: draggedElement.textContent,
             },
           ];
+          console.log(dataUpdatedXY);
+
           let informatiodCombinated = combinatdArrays(
             dataUpdatedXY,
             informationData
           );
           console.log(informatiodCombinated);
-          setInformationData(informatiodCombinated)
+          
+          setInformationData(dataUpdatedXY);
           return dataUpdatedXY;
         });
       }
@@ -177,42 +180,61 @@ const PreviewTemplate = ({
           />
         )}
       </div>
-      <div>
-        <h3>Fotografía:</h3>
-        <label>Posición X:</label>
-        <input type="text" value={fotoPosition.x} />
-        <label>Posición Y:</label>
-        <input type="text" value={fotoPosition.y} />
-
-        {seguridad["type"] == "CodBarra" && (
-          <>
-            <h3>Código de barras:</h3>
+      <div className="posiciones-container">
+        <h3>📷 Fotografía:</h3>
+        <div className="posiciones-grid">
+          <div className="posicion-item">
             <label>Posición X:</label>
-            <input type="text" value={codeBarPosition.x} />
-            <label>Posición Y:</label>
-            <input type="text" value={codeBarPosition.y} />
-          </>
-        )}
-
-        {seguridad["type"] == "CodQR" && (
-          <>
-            <h3>Código QR:</h3>
-            <label>Posición X:</label>
-            <input type="text" value={codeQrPosition.x} />
-            <label>Posición Y:</label>
-            <input type="text" value={codeQrPosition.y} />
-          </>
-        )}
-
-        {/* Mostrar las posiciones de los elementos con la clase 'dataElement' */}
-        <h3>Elementos de datos:</h3>
-        {dataElementsPositions.map((position, index) => (
-          <div key={index}>
-            <label>Nombre: {position.nombre}</label>
-            <label>Posición X: {position.x}</label>
-            <label>Posición Y: {position.y}</label>
+            <input type="text" value={fotoPosition.x} />
           </div>
-        ))}
+          <div className="posicion-item">
+            <label>Posición Y:</label>
+            <input type="text" value={fotoPosition.y} />
+          </div>
+        </div>
+
+        {seguridad["type"] === "CodBarra" && (
+          <>
+            <h3>📦 Código de barras:</h3>
+            <div className="posiciones-grid">
+              <div className="posicion-item">
+                <label>Posición X:</label>
+                <input type="text" value={codeBarPosition.x} />
+              </div>
+              <div className="posicion-item">
+                <label>Posición Y:</label>
+                <input type="text" value={codeBarPosition.y} />
+              </div>
+            </div>
+          </>
+        )}
+
+        {seguridad["type"] === "CodQR" && (
+          <>
+            <h3>🔲 Código QR:</h3>
+            <div className="posiciones-grid">
+              <div className="posicion-item">
+                <label>Posición X:</label>
+                <input type="text" value={codeQrPosition.x} />
+              </div>
+              <div className="posicion-item">
+                <label>Posición Y:</label>
+                <input type="text" value={codeQrPosition.y} />
+              </div>
+            </div>
+          </>
+        )}
+
+        <h3>📑 Datos:</h3>
+        <div className="data-elementos">
+          {dataElementsPositions.map((position, index) => (
+            <div className="data-elemento" key={index}>
+              <p>Campo: <b>{position.nombre}</b></p>
+              <span>Posición X: {position.x} </span>
+              <span>Posición Y: {position.y}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

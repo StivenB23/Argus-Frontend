@@ -10,6 +10,7 @@ type TemplateDimension = {
 
 type code = {
   value: string;
+  type: string;
   position_x: number;
   position_y: number;
 };
@@ -22,6 +23,8 @@ type photo = {
   position_y: number;
 };
 
+type label = { nombre: string; x: number; y: number }
+
 export class GenerateCarneBuilder {
   private doc: jsPDF;
   private templateDimension: TemplateDimension;
@@ -30,10 +33,18 @@ export class GenerateCarneBuilder {
   private photo: photo | null = null;
   private code: code = {
     value: "",
+    type: "",
     position_x: 0,
     position_y: 0,
   };
   private PIXEL: number = 0.0264583333;
+  private labels: label[] = [];
+  private user: { first_name: string; last_name: string, TD: string, document:string } = {
+    first_name: "",
+    last_name: "",
+    TD:"",
+    document:""
+  };
 
   constructor(templateDimension: TemplateDimension) {
     this.templateDimension = templateDimension;
@@ -56,6 +67,16 @@ export class GenerateCarneBuilder {
       code.position_y = code.position_y * this.PIXEL;
     }
     this.code = code;
+    return this;
+  }
+
+  setLabels(labels: []): this {
+    this.labels = labels;
+    return this;
+  }
+
+  setUserData(user: { first_name: string; last_name: string, TD: string, document:string } ): this {
+    this.user = user;
     return this;
   }
 
@@ -114,6 +135,25 @@ export class GenerateCarneBuilder {
     this.doc.setFillColor(0, 0, 0);
     this.doc.rect(0.6, 6.5, 4, 0.7, "F"); // Ajusta la posición y el tamaño
   }
+
+  private insertInformation(): void {
+    this.labels.forEach((label) => {
+      this.doc.setFontSize(7);
+      if (label.nombre == "nombres") {
+        this.doc.text(this.user.first_name, label.x * this.PIXEL, label.y * this.PIXEL);
+      }
+      if (label.nombre == "apellidos") {
+        this.doc.text(this.user.last_name, label.x * this.PIXEL, label.y * this.PIXEL);
+      }
+      if (label.nombre == "TD") {
+        this.doc.text(this.user.TD, label.x * this.PIXEL, label.y * this.PIXEL);
+      }
+      if (label.nombre == "documento") {
+        this.doc.text(this.user.document, label.x * this.PIXEL, label.y * this.PIXEL);
+      }
+    });
+  }
+
   private async addQRCode(): Promise<void> {
     try {
       const qrCodeDataUrl = await QRCode.toDataURL(this.code.value, {
@@ -156,7 +196,14 @@ export class GenerateCarneBuilder {
       const barcodeDataUrl = canvas.toDataURL("image/png");
 
       // Insertar la imagen del código de barras en el PDF (ajustando la posición y el tamaño)
-      this.doc.addImage(barcodeDataUrl, "PNG", this.code.position_x, this.code.position_y, 4.4, 1.9); // Ajusta el tamaño y la posición según sea necesario
+      this.doc.addImage(
+        barcodeDataUrl,
+        "PNG",
+        this.code.position_x,
+        this.code.position_y,
+        4.4,
+        1.9
+      ); // Ajusta el tamaño y la posición según sea necesario
     } catch (error) {
       console.error("Error generando código de barras:", error);
     }
@@ -168,13 +215,17 @@ export class GenerateCarneBuilder {
     await this.applyBackground();
 
     // 2. Agrega texto y rectángulo
-    this.addText();
+    this.insertInformation()
     // this.addRectangle();
 
     // 3. Luego aplica la imagen del usuario
     await this.applyUserImage();
-    // await this.addQRCode();
-    await this.addBarcode();
+    if (this.code.type == "CodQR") {
+      await this.addQRCode();
+    }
+    if (this.code.type == "CodBa") {
+      await this.addBarcode();
+    }
 
     // 4. Guarda el archivo PDF
     this.doc.save(filename);
