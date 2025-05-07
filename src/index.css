@@ -34,7 +34,7 @@ label {
 
 input {
   outline: none;
-  background-color: #d7d7d7;
+  background-color: #ebebeb;
   padding: 5px 10px;
   border: none;
   font-size: 1rem;
@@ -55,6 +55,11 @@ input[type="color"] {
   height: 40px;
   border-radius: 50%;
 }
+
+input[type="checkbox"]{
+  cursor: pointer;
+}
+
 input[type="file"]{
   border: none;
   background: transparent;
@@ -66,6 +71,12 @@ input[type="file"]::file-selector-button {
   padding: 0.5em;
   border: thin solid #8b8b8b;
   border-radius: 3px;
+}
+
+button:disabled{
+  background-color: #afafaf;
+  color: #8b8b8b;
+  cursor: default;
 }
 
 button {

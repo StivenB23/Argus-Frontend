@@ -6,6 +6,7 @@ import { deleteUserById, getUsers } from "../../../services/UserService";
 import { FiEdit3, FiTrash } from "react-icons/fi";
 import { FaCircle, FaPowerOff, FaRegAddressCard } from "react-icons/fa";
 import { generateCard } from "../../../services/carne_manage/generateCarne.service";
+import { formatDate } from "@utils/dateFormat";
 
 export type ContainerDataUsersTableProps = {
   // Aquí podrías definir tipos si necesitas
@@ -108,7 +109,7 @@ const ContainerDataUsersTable: React.FC<ContainerDataUsersTableProps> = () => {
           }}
         >
           {row.status}
-          {row.status == "active" ? (
+          {row.status == "activo" ? (
             <FaCircle style={{ color: "green", fontSize: "14px" }} />
           ) : (
             <FaCircle style={{ color: "red", fontSize: "14px" }} />
@@ -120,6 +121,11 @@ const ContainerDataUsersTable: React.FC<ContainerDataUsersTableProps> = () => {
     {
       name: "Rol",
       selector: (row) => row.role,
+      sortable: true,
+    },
+    {
+      name: "Fecha Creación",
+      selector: (row) => formatDate(row.date_created,"yyyy-mm-dd"),
       sortable: true,
     },
     {

@@ -8,6 +8,24 @@
 .sidebard {
   background-color: var(--color-primary-blue);
   color: #fff;
+  overflow-y:auto;
+
+    /* Scrollbar estilo WebKit */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #ffffff33 transparent; /* Firefox */
+}
+
+.sidebard::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebard::-webkit-scrollbar-thumb {
+  background-color: #ffffff33;
+  border-radius: 4px;
+}
+
+.sidebard::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .sidebard__logo {

@@ -11,6 +11,7 @@ import { HiOutlineUsers } from "react-icons/hi";
 import { IoIosArrowDown, IoIosArrowRoundForward } from "react-icons/io";
 import { getWordOfText } from "@utils/textUtils";
 import { GoProjectTemplate } from "react-icons/go";
+import { BsBuildings } from "react-icons/bs";
 
 export type DashboardProps = {
   // types...
@@ -65,30 +66,45 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
               </Link>
             </li>
 
-            <li className={`has-submenu ${activeMenu === "usuarios" ? "active" : ""}`}>
+            <li
+              className={`has-submenu ${
+                activeMenu === "usuarios" ? "active" : ""
+              }`}
+            >
               <button type="button" onClick={() => toggleSubmenu("usuarios")}>
                 <HiOutlineUsers className="icon__sidebar" /> Usuarios{" "}
                 <IoIosArrowDown />
               </button>
-              <ul className={`submenu ${activeMenu === "usuarios" ? "show" : ""}`}>
+              <ul
+                className={`submenu ${activeMenu === "usuarios" ? "show" : ""}`}
+              >
                 <li>
-                  <a href="/dashboard/usuarios">
-                    <IoIosArrowRoundForward className="icon__sidebar" /> Lista
-                  </a>
+                  <Link to="/dashboard/usuarios">
+                    <IoIosArrowRoundForward className="icon__sidebar" />
+                    Ver Usuarios
+                  </Link>
                 </li>
                 <li>
                   <Link to="/dashboard/crear-usuario">
-                    <IoIosArrowRoundForward className="icon__sidebar" /> Nuevo
+                    <IoIosArrowRoundForward className="icon__sidebar" /> Crear
+                    Usuario
                   </Link>
                 </li>
               </ul>
             </li>
-            <li className={`has-submenu ${activeMenu === "plantillas" ? "active" : ""}`}>
+            <li
+              className={`has-submenu ${
+                activeMenu === "plantillas" ? "active" : ""
+              }`}
+            >
               <button type="button" onClick={() => toggleSubmenu("plantillas")}>
-                <GoProjectTemplate /> Plantilla Carnets{" "}
-                <IoIosArrowDown />
+                <GoProjectTemplate /> Plantilla Carnets <IoIosArrowDown />
               </button>
-              <ul className={`submenu ${activeMenu === "plantillas" ? "show" : ""}`}>
+              <ul
+                className={`submenu ${
+                  activeMenu === "plantillas" ? "show" : ""
+                }`}
+              >
                 <li>
                   <a href="/dashboard/template/list">
                     <IoIosArrowRoundForward className="icon__sidebar" /> Listar
@@ -96,7 +112,8 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
                 </li>
                 <li>
                   <Link to="/dashboard/template">
-                    <IoIosArrowRoundForward className="icon__sidebar" /> Nueva Plantilla
+                    <IoIosArrowRoundForward className="icon__sidebar" /> Nueva
+                    Plantilla
                   </Link>
                 </li>
               </ul>
@@ -104,8 +121,13 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
 
             <li>
               <a href="/permisos">
-                <MdOutlineShield className="icon__sidebar" /> Permisos
+                <BsBuildings className="icon__sidebar" /> Instalaciones
               </a>
+            </li>
+            <li>
+              <Link to="/dashboard/roles-permisos">
+                <MdOutlineShield className="icon__sidebar" /> Roles y Permisos
+              </Link>
             </li>
             <li>
               <a href="/accesos">
