@@ -118,11 +118,31 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
                 </li>
               </ul>
             </li>
-
-            <li>
-              <a href="/permisos">
-                <BsBuildings className="icon__sidebar" /> Instalaciones
-              </a>
+            <li
+              className={`has-submenu ${
+                activeMenu === "usuarios" ? "active" : ""
+              }`}
+            >
+              <button type="button" onClick={() => toggleSubmenu("instalaciones")}>
+                <HiOutlineUsers className="icon__sidebar" /> Instalaciones{" "}
+                <IoIosArrowDown />
+              </button>
+              <ul
+                className={`submenu ${activeMenu === "instalaciones" ? "show" : ""}`}
+              >
+                <li>
+                  <Link to="/dashboard/usuarios">
+                    <IoIosArrowRoundForward className="icon__sidebar" />
+                    Ver Isntalaciones
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard/crear-usuario">
+                    <IoIosArrowRoundForward className="icon__sidebar" /> Registrar
+                    Instalación
+                  </Link>
+                </li>
+              </ul>
             </li>
             <li>
               <Link to="/dashboard/roles-permisos">
