@@ -1,12 +1,25 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScannIdentityCard } from "@components/ScannIdentityCard";
 import { verifyIdentityCard } from "../../services/AuthService";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { getFacilitiesService } from "@services/facilities.service";
 
 const ValidateIdentityCard = () => {
   const lastScannedCode = useRef<string | null>(null);
   const lastScannedTime = useRef<number | null>(null);
+  const [data, setdata] = useState([])
+
+  useEffect(() => {
+    const getData = async() => {
+      const dataFacilities = await getFacilitiesService()
+      setdata(dataFacilities)
+    }
+    getData()
+  
+    
+  }, [])
+  
 
   const handleSuccess = async (code: string) => {
     const currentTime = Date.now();
@@ -63,6 +76,15 @@ const ValidateIdentityCard = () => {
   return (
     <div style={{height:"50%", width:"60%"}}>
       <h2>Validar Cédula</h2>
+      <div className="">
+        <label htmlFor="">Selecciona la Instalación:</label>
+        <select name="" id="">
+          <option selected disabled>Seleccionar</option>
+          {data.map((facility)=>(
+            <option value={facility.id} >{facility.name}</option>
+          ))}
+        </select>
+      </div>
       <ScannIdentityCard
         onScanSuccess={handleSuccess}
         onScanFailure={handleError}

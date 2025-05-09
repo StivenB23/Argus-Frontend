@@ -35,7 +35,7 @@ const ContainerDataRolesTable: React.FC<
       setfacilities(facilitiesData);
     };
     getData();
-  }, []);
+  }, [hasChanges]);
 
   const editRole = (row) => {
     console.log(row);
@@ -54,6 +54,19 @@ const ContainerDataRolesTable: React.FC<
     {
       name: "Nombre Rol",
       selector: (row) => row.name,
+      sortable: true,
+      center: true,
+    },
+    {
+      name: "Acesos",
+      selector: (row) => row.name,
+      cell: (row)=>(
+        <div>
+          {row.facilities.map((facility)=>(
+          <small>{facility.name}, </small>
+          ))}
+        </div>
+      ),
       sortable: true,
       center: true,
     },

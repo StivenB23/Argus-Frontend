@@ -1,0 +1,1 @@
+export { default as ContainerDataTableFacilities } from './ContainerDataTableFacilities';

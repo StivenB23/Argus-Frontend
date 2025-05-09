@@ -60,12 +60,6 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
                 <RiDashboardLine className="icon__sidebar" /> Dashboard
               </Link>
             </li>
-            <li>
-              <Link to="validate">
-                <IoFingerPrint className="icon__sidebar" /> Validación
-              </Link>
-            </li>
-
             <li
               className={`has-submenu ${
                 activeMenu === "usuarios" ? "active" : ""
@@ -123,23 +117,28 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
                 activeMenu === "usuarios" ? "active" : ""
               }`}
             >
-              <button type="button" onClick={() => toggleSubmenu("instalaciones")}>
+              <button
+                type="button"
+                onClick={() => toggleSubmenu("instalaciones")}
+              >
                 <HiOutlineUsers className="icon__sidebar" /> Instalaciones{" "}
                 <IoIosArrowDown />
               </button>
               <ul
-                className={`submenu ${activeMenu === "instalaciones" ? "show" : ""}`}
+                className={`submenu ${
+                  activeMenu === "instalaciones" ? "show" : ""
+                }`}
               >
                 <li>
-                  <Link to="/dashboard/usuarios">
+                  <Link to="/dashboard/instalaciones">
                     <IoIosArrowRoundForward className="icon__sidebar" />
-                    Ver Isntalaciones
+                    Ver Instalaciones
                   </Link>
                 </li>
                 <li>
                   <Link to="/dashboard/crear-usuario">
-                    <IoIosArrowRoundForward className="icon__sidebar" /> Registrar
-                    Instalación
+                    <IoIosArrowRoundForward className="icon__sidebar" />{" "}
+                    Registrar Instalación
                   </Link>
                 </li>
               </ul>
@@ -147,6 +146,11 @@ const Dashboard: React.FC<DashboardProps> = ({}) => {
             <li>
               <Link to="/dashboard/roles-permisos">
                 <MdOutlineShield className="icon__sidebar" /> Roles y Permisos
+              </Link>
+            </li>
+            <li>
+              <Link to="validate">
+                <IoFingerPrint className="icon__sidebar" /> Validación
               </Link>
             </li>
             <li>

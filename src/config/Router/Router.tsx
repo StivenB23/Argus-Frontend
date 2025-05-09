@@ -9,6 +9,7 @@ import UserList from "../../pages/UserList/UserList";
 import ValidateIdentityCard from "../../pages/ValidateIdentityCard/ValidateIdentityCard";
 import TemplateList from "../../pages/TemplateList/TemplateList";
 import RolesList from "../../pages/RolesList/RolesList";
+import FacilityList from "../../pages/FacilityList/FacilityList";
 
 const Router = () => {
   return (
@@ -22,6 +23,7 @@ const Router = () => {
         <Route index element={<DashboardHome />} />
         <Route path="usuarios" element={<UserList /> } />
         <Route path="template" element={<FormTemplate />} />
+        <Route path="instalaciones" element={<FacilityList />} />
         <Route path="roles-permisos" element={<RolesList />} />
         <Route path="validate" element={<ValidateIdentityCard />} />
         <Route path="crear-usuario" element={<FormUser />} />
